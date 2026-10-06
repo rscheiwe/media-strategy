@@ -1,0 +1,80 @@
+# Explanation spot-check (human audit of the judge)
+
+For each brief: the decision facts, the first sampled text and the judge. Tick the box if you agree with the judge on every criterion.
+
+## Acme
+
+- plan: Premium Takeover
+- rejected leader: {'product': 'Commerce Connect', 'reasons': ["the forecast inventory can't absorb the full budget"]}
+
+> Premium Takeover is the best single-product fit for Acme Shoes because it can carry the $30,000 brief on its own and is the highest-CTR option that clears inventory, delivering 937,500 impressions at 0.91% CTR. Commerce Connect and Attention Builder both rank above it on CTR, but neither was chosen because their usable inventory cannot absorb the impressions the budget buys. The main tradeoff is that Commerce Connect + Premium Takeover would lift blended CTR to 1.17%, or 29.65% above the pick, but the brief does not require a bundle and Premium Takeover already satisfies the plan alone. Premium Takeover’s inventory fit is very tight, with only 0.32% to spare, so it is the cleanest compliant choice but with limited headroom.
+
+- judge: {"names_pick": true, "leader_reason_correct": true, "mentions_rejected_alternative": true, "tradeoff_direction_correct": true, "no_contradiction": true, "no_invented_product": true, "note": ""}
+
+- [ ] I agree with the judge
+
+## Burger
+
+- plan: Attention Builder
+- rejected leader: {'product': 'Social Amplifier', 'reasons': ["the forecast inventory can't absorb the full budget"]}
+
+> Attention Builder is the best fit for Burger Bazaar’s primary KPI because it is the highest-in-view-rate product that can carry the brief alone, delivering 74.96% while still meeting the 800,000 impression goal at the full $15,000 budget. Social Amplifier ranks above it on in-view rate at 78.72%, but it was not chosen because its usable inventory of 1,295,580 impressions cannot absorb the 1,666,666 the budget buys, short 371,086. The main tradeoff is that we give up a small amount of in-view efficiency versus the leader in exchange for a single-product plan that can actually scale to budget; versus Video Spotlight, the gain is minimal since it trails the pick by just 0.12 points on in-view rate, but Attention Builder has the cleaner delivery fit.
+
+- judge: {"names_pick": true, "leader_reason_correct": true, "mentions_rejected_alternative": true, "tradeoff_direction_correct": true, "no_contradiction": true, "no_invented_product": true, "note": ""}
+
+- [ ] I agree with the judge
+
+## CineVerse
+
+- plan: Attention Builder, Premium Takeover
+- rejected leader: None
+
+> CineVerse’s CTR brief is best served by the two highest-CTR EMEA Entertainment products that can actually absorb the spend, since Attention Builder alone cannot carry the brief: the budget buys 2,857,142 impressions but only 1,112,280 are usable, and Premium Takeover alone also falls short at 706,020 usable versus 1,250,000 bought. The bundle preserves the top-end CTR of 1.18% from Attention Builder while adding Premium Takeover at 1.01% to use the remaining scale available in market, yielding a blended CTR of 1.11%. Attention Builder is not enough on its own because of inventory constraints, while Premium Takeover is the next-best option and is needed to extend delivery after Attention Builder exhausts. The main tradeoff is that the plan leaves $1,835.44 unspent, but that is preferable to forcing spend into lower-CTR products or overcommitting beyond usable inventory.
+
+- judge: {"names_pick": true, "leader_reason_correct": null, "mentions_rejected_alternative": null, "tradeoff_direction_correct": true, "no_contradiction": true, "no_invented_product": true, "note": ""}
+
+- [ ] I agree with the judge
+
+## Stellar
+
+- plan: Commerce Connect
+- rejected leader: {'product': 'Premium Takeover', 'reasons': ['the budget buys fewer impressions than the goal at its CPM']}
+
+> Commerce Connect is the best fit for Stellar Bank because it is the highest-CTR product that can carry the brief alone, delivering 1.10% CTR while buying 1,333,333 impressions on a $20,000 budget and clearing the 800,000 impression goal. Premium Takeover ranks above it on CTR at 1.33%, but it was not chosen because the budget buys only 625,000 impressions at its CPM, which falls short of the goal. The main tradeoff is giving up the top CTR rate in favor of a plan that actually meets reach requirements, and the selected line also overshoots the impression goal by 66.67%.
+
+- judge: {"names_pick": true, "leader_reason_correct": true, "mentions_rejected_alternative": true, "tradeoff_direction_correct": true, "no_contradiction": true, "no_invented_product": true, "note": ""}
+
+- [ ] I agree with the judge
+
+## Wanderlust
+
+- plan: Video Spotlight, Attention Builder
+- rejected leader: None
+
+> Video Spotlight is the strongest in-view-rate option at 81.27%, but it cannot carry the brief alone because its usable inventory is only 225,000 impressions, well below both the 1,000,000 impressions the budget buys and the 850,000 goal. Attention Builder is the next-best fit at 77.71% and has enough usable inventory at 1,008,000 to absorb most of the $18,000 budget, so the plan splits spend between the two: $4,050 to Video Spotlight and $13,950 to Attention Builder. Premium Takeover ranks above no chosen product on in-view rate and would have delivered 73.64%, but it was not chosen because the budget buys only 562,500 impressions at its CPM, which does not meet the 850,000 goal, and its usable inventory is also only 727,560. The tradeoff is that bundling preserves strong in-view performance while clearing the impression target, but the blended in-view rate settles at 78.36% and the plan exceeds the 850,000 impression goal by 43.7%.
+
+- judge: {"names_pick": true, "leader_reason_correct": null, "mentions_rejected_alternative": null, "tradeoff_direction_correct": true, "no_contradiction": false, "no_invented_product": true, "note": "no_contradiction is false because the text says Premium Takeover ranks above no chosen product on in-view rate, but Premium Takeover is ranked below both chosen products."}
+
+- [ ] I agree with the judge
+
+## Brief6+Entertainment
+
+- plan: Premium Takeover
+- rejected leader: {'product': 'Attention Builder', 'reasons': ["the forecast inventory can't absorb the full budget"]}
+
+> Premium Takeover is the highest in-view rate product that can carry the $25,000 brief on its own, delivering 781,250 impressions at a 75.06% in-view rate. The two products ranked above it, Attention Builder and Video Spotlight, were not chosen because neither has enough usable inventory to absorb the budget’s buy volume: Attention Builder is short 420,454 impressions and Video Spotlight is short 438,518. A bundle was not needed because a single product could satisfy the brief, though the tradeoff is that the in-view rate leader, Attention Builder, is stronger on KPI but cannot scale alone, while Premium Takeover delivers only slightly more than required with 1.74% to spare and carries lower forecast confidence at 0.72.
+
+- judge: {"names_pick": true, "leader_reason_correct": true, "mentions_rejected_alternative": true, "tradeoff_direction_correct": true, "no_contradiction": true, "no_invented_product": true, "note": ""}
+
+- [ ] I agree with the judge
+
+## Brief7+CTR
+
+- plan: Premium Takeover, Commerce Connect
+- rejected leader: None
+
+> The bundle of Premium Takeover and Commerce Connect is the best fit for a CTR-led finance brief in EMEA because no single product can absorb the full $25,000 budget within usable inventory, even though Premium Takeover is the highest-CTR option at 1.33%. Premium Takeover is capped at 614,620 usable impressions, so we allocate $19,667.84 to fully use that supply, then place the remaining $5,332.16 into Commerce Connect, which adds 355,477 impressions at a 1.10% CTR for a blended 1.24%. Premium Takeover was not chosen as a single-product plan because it would leave $5,332.16 unspent; Commerce Connect also could not carry the brief alone because its 863,580 usable impressions fall short of the 1,666,666 impressions the budget buys. The main tradeoff is that the bundle preserves the strongest CTR available while fully spending budget, but both selected products carry lower forecast confidence, so delivery certainty is weaker than ideal.
+
+- judge: {"names_pick": true, "leader_reason_correct": null, "mentions_rejected_alternative": null, "tradeoff_direction_correct": true, "no_contradiction": true, "no_invented_product": true, "note": ""}
+
+- [ ] I agree with the judge

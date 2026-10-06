@@ -1,0 +1,33 @@
+# Secrets: never commit. Copy app/.env.example to app/.env.
+.env
+.env.*
+!.env.example
+
+# Dependencies and builds
+node_modules/
+.venv/
+dist/
+__pycache__/
+*.pyc
+
+# Tool caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local SQLite (chat history and case.db are created at runtime)
+*.db
+*.db-shm
+*.db-wal
+app/api/data/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Build metadata
+*.egg-info/
+
+# Raw experiment outputs (the findings are summarized in each FINDINGS.md)
+experiments/*/results/

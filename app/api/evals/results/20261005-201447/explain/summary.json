@@ -1,0 +1,16 @@
+{
+  "texts": 7,
+  "errors": 0,
+  "schema_problems": 0,
+  "judge": {
+    "names_pick": "7/7",
+    "leader_reason_correct": "4/4",
+    "mentions_rejected_alternative": "4/4",
+    "tradeoff_direction_correct": "2/2",
+    "no_contradiction": "6/7",
+    "no_invented_product": "6/7"
+  },
+  "judge_failures": [
+    "Brief6+Entertainment#0: ['no_contradiction', 'no_invented_product'] \u2014 no_contradiction/no_invented_product are false because the text names 'Attention Builder + Video Spotlight' as a product, but the FACTS list only individual products and not that bundle as an all_products entry."
+  ]
+}

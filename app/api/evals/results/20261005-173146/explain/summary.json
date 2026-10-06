@@ -1,0 +1,15 @@
+{
+  "texts": 7,
+  "errors": 0,
+  "judge": {
+    "names_pick": "7/7",
+    "leader_reason_correct": "4/4",
+    "mentions_rejected_alternative": "4/4",
+    "tradeoff_direction_correct": "7/7",
+    "no_contradiction": "6/7",
+    "no_invented_product": "7/7"
+  },
+  "judge_failures": [
+    "Wanderlust#0: ['no_contradiction'] \u2014 no_contradiction is false because the text says Premium Takeover ranks above no chosen product on in-view rate, but Premium Takeover is ranked below both chosen products."
+  ]
+}

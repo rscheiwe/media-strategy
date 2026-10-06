@@ -1,0 +1,5 @@
+# Run the whole app from the repo root: docker compose up --build  ->  http://localhost:8080
+# (the services are defined in app/docker-compose.yml)
+name: media-strategy   # same project (and chat-history volume) as running from app/
+include:
+  - app/docker-compose.yml

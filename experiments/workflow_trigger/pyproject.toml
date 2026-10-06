@@ -1,0 +1,26 @@
+[project]
+name = "workflow-trigger"
+version = "0.1.0"
+description = "Experiment: when a chat agent should run a workflow tool vs. converse"
+requires-python = ">=3.11"
+dependencies = [
+    "vel-ai>=0.5.2",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    "httpx>=0.27",
+    "pydantic>=2.6",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0",
+]
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-asyncio>=0.23"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = ["live: calls the OpenAI API (needs OPENAI_API_KEY)"]
+addopts = "-m 'not live'"

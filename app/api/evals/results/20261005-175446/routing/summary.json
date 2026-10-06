@@ -1,0 +1,81 @@
+{
+  "A": {
+    "turn_accuracy": 0.4426229508196721,
+    "trigger_recall": 0.0,
+    "args_accuracy": 0.0,
+    "ask_accuracy": 0.0,
+    "false_triggers": 0,
+    "false_trigger_rate": 0.0,
+    "silent_turns": 2,
+    "invented_recommendations": 0,
+    "slot_hallucinations": 0,
+    "errors": 2,
+    "pass_k": "25/52",
+    "by_category": {
+      "analysis": "6/6",
+      "follow_up": "6/7",
+      "mid_run": "2/2",
+      "should_ask": "0/15",
+      "should_call": "0/16",
+      "should_not_call": "13/15"
+    },
+    "ambiguous": [
+      "ambiguous_what_if_budget#0: no run",
+      "ambiguous_hypothetical_brief#0: no run",
+      "app_bank_inferred#0: no run"
+    ],
+    "first_visible_p50_s": 0.57,
+    "first_visible_p95_s": 0.78,
+    "first_content_p50_s": 1.16,
+    "first_content_p95_s": 1.45,
+    "latency_p50_s": 2.64,
+    "latency_p95_s": 4.63,
+    "llm_calls_per_turn": 2.44,
+    "llm_calls_by_caller": {
+      "chat": 156
+    },
+    "tokens_per_turn": 12976,
+    "cost_usd": null
+  },
+  "B": {
+    "turn_accuracy": 0.9672131147540983,
+    "trigger_recall": 1.0,
+    "args_accuracy": 1.0,
+    "ask_accuracy": 1.0,
+    "false_triggers": 1,
+    "false_trigger_rate": 0.03571428571428571,
+    "silent_turns": 1,
+    "invented_recommendations": 0,
+    "slot_hallucinations": 0,
+    "errors": 1,
+    "pass_k": "50/52",
+    "by_category": {
+      "analysis": "6/6",
+      "follow_up": "6/7",
+      "mid_run": "2/2",
+      "should_ask": "15/15",
+      "should_call": "16/16",
+      "should_not_call": "14/15"
+    },
+    "ambiguous": [
+      "ambiguous_what_if_budget#0: ran",
+      "ambiguous_hypothetical_brief#0: no run",
+      "app_bank_inferred#0: ran"
+    ],
+    "first_visible_p50_s": 0.01,
+    "first_visible_p95_s": 0.03,
+    "first_content_p50_s": 0.82,
+    "first_content_p95_s": 1.68,
+    "latency_p50_s": 2.23,
+    "latency_p95_s": 3.93,
+    "llm_calls_per_turn": 2.0,
+    "llm_calls_by_caller": {
+      "router": 58,
+      "explain": 26,
+      "chat": 44
+    },
+    "tokens_per_turn": 5733,
+    "cost_usd": null
+  },
+  "decision": "B: A 44.3% vs B 96.7% (within 5%: False); A false triggers 0, invented 0, slot hallucinations 0"
+}

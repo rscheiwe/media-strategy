@@ -1,0 +1,37 @@
+[project]
+name = "chat-api"
+version = "0.1.0"
+description = "Chat API for the media-planning assistant (FastAPI + vel, SQLite)"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "python-dotenv>=1.0",
+    "httpx>=0.27",
+    "vel-ai==0.5.2",
+    "pandas>=2.2",
+    "agentmesh-py==0.2.1",
+]
+
+[project.optional-dependencies]
+langfuse = ["langfuse>=2,<3"]
+
+[project.scripts]
+chat-api = "chat_api.main:main"
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-asyncio>=0.23"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+chat_api = ["storage/schema.sql", "casedata/schema.sql"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

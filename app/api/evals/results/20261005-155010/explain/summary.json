@@ -1,0 +1,17 @@
+{
+  "texts": 7,
+  "errors": 0,
+  "guard_pass_rate": 1.0,
+  "judge": {
+    "names_pick": "7/7",
+    "leader_reason_correct": "4/4",
+    "mentions_rejected_alternative": "4/4",
+    "tradeoff_direction_correct": "7/7",
+    "no_contradiction": "6/7",
+    "no_invented_product": "7/7"
+  },
+  "guard_failures": [],
+  "judge_failures": [
+    "CineVerse#0: ['no_contradiction'] \u2014 no_contradiction is false because the text says the bundle will 'fully deploy the budget as closely as possible,' but the facts show $1,835.44 of budget remains unspent."
+  ]
+}

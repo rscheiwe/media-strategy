@@ -1,0 +1,87 @@
+# Explanation spot-check (human audit of the judge)
+
+For each brief: the decision facts, the first sampled text, the guard and the judge. Tick the box if you agree with the judge on every criterion.
+
+## Acme
+
+- plan: Premium Takeover
+- rejected leader: {'product': 'Commerce Connect', 'reasons': ["the forecast inventory can't absorb the full budget"]}
+
+> Premium Takeover is the right fit because the client’s main goal is CTR, and this plan delivers a solid 0.91% CTR on 937,500 impressions within the $30,000 budget. Commerce Connect and Attention Builder were stronger on CTR at 1.23% and 1.00%, but neither was viable at the full budget because of inventory limits, so they could not support the brief on their own. The main tradeoff is accepting a thinner margin on performance versus the highest CTR options, but Premium Takeover gives the most dependable, fully funded path to scale.
+
+- guard: pass
+- judge: {"names_pick": true, "leader_reason_correct": true, "mentions_rejected_alternative": true, "tradeoff_direction_correct": true, "no_contradiction": true, "no_invented_product": true, "note": ""}
+
+- [ ] I agree with the judge
+
+## Burger
+
+- plan: Attention Builder
+- rejected leader: {'product': 'Social Amplifier', 'reasons': ["the forecast inventory can't absorb the full budget"]}
+
+> Attention Builder is the right fit for Burger Bazaar because it clears the 800,000 impression goal with 1,071,428 impressions while delivering a strong 74.96% in-view rate, which aligns directly with the primary KPI. Social Amplifier was the higher KPI option at 78.72%, but it was not chosen because the inventory was below budget, making it non-viable for this plan. Video Spotlight was close at 74.84%, but Attention Builder edged it out and gives the cleaner balance of scale and efficiency, with the main tradeoff being accepting a slightly lower in-view rate than the leader to secure a fully fundable plan.
+
+- guard: pass
+- judge: {"names_pick": true, "leader_reason_correct": true, "mentions_rejected_alternative": true, "tradeoff_direction_correct": true, "no_contradiction": true, "no_invented_product": true, "note": ""}
+
+- [ ] I agree with the judge
+
+## CineVerse
+
+- plan: Attention Builder, Premium Takeover
+- rejected leader: None
+
+> This bundle is the best fit for CineVerse because CTR is the primary KPI, and Attention Builder delivers the strongest CTR at 1.18% while adding the scale needed to support the plan with 1,112,280 impressions. No single product could carry the brief because every option is below budget, so the mix pairs Attention Builder with Premium Takeover to fully deploy the budget as closely as possible and reach 1,818,300 total impressions. Premium Takeover brings incremental reach with 706,020 impressions, but it trails on CTR at 1.01%, so the main tradeoff is accepting some efficiency dilution in exchange for broader coverage.
+
+- guard: pass
+- judge: {"names_pick": true, "leader_reason_correct": null, "mentions_rejected_alternative": null, "tradeoff_direction_correct": true, "no_contradiction": false, "no_invented_product": true, "note": "no_contradiction is false because the text says the bundle will 'fully deploy the budget as closely as possible,' but the facts show $1,835.44 of budget remains unspent."}
+
+- [ ] I agree with the judge
+
+## Stellar
+
+- plan: Commerce Connect
+- rejected leader: {'product': 'Premium Takeover', 'reasons': ['the budget buys fewer impressions than the goal at its CPM']}
+
+> Commerce Connect is the right fit for Stellar Bank because it delivers a strong CTR of 1.10% while still exceeding the 800,000 impression goal with 1,333,333 total impressions on a $20,000 spend. Premium Takeover posted the higher CTR at 1.33%, but it was not chosen because it was below budget goal, so it was not a viable path for the full brief. The main tradeoff is accepting slightly lower CTR than the leader in exchange for a plan that stays within budget and reliably clears the impression target.
+
+- guard: pass
+- judge: {"names_pick": true, "leader_reason_correct": true, "mentions_rejected_alternative": true, "tradeoff_direction_correct": true, "no_contradiction": true, "no_invented_product": true, "note": ""}
+
+- [ ] I agree with the judge
+
+## Wanderlust
+
+- plan: Video Spotlight, Attention Builder
+- rejected leader: None
+
+> This bundle is the best fit for Wanderlust Air because the primary KPI is in-view rate, and Video Spotlight delivers the strongest rate at 81.27% while Attention Builder adds scale to get the plan to 1,221,428 total impressions and keep the blended result strong at 78.36%. No single product could carry the brief because Video Spotlight and Attention Builder both had inventory below budget, while Premium Takeover was also below budget and below goal, so the mix was needed to fully deploy the $18,000 and clear the 850,000 impression goal. The tradeoff is that the plan gives up some efficiency versus the top in-view product in order to secure enough reach and stay fully spent across APAC.
+
+- guard: pass
+- judge: {"names_pick": true, "leader_reason_correct": null, "mentions_rejected_alternative": null, "tradeoff_direction_correct": true, "no_contradiction": true, "no_invented_product": true, "note": ""}
+
+- [ ] I agree with the judge
+
+## Brief6+Entertainment
+
+- plan: Premium Takeover
+- rejected leader: {'product': 'Attention Builder', 'reasons': ["the forecast inventory can't absorb the full budget"]}
+
+> Premium Takeover is the right fit for this Entertainment app brief because it delivers a strong in-view rate of 75.06% while using the full $25,000 budget to generate 781,250 impressions. The higher-ranked options, Attention Builder at 80.32% and Video Spotlight at 78.95%, were not chosen because both were inventory below budget, and the Attention Builder + Video Spotlight bundle at 80.05% was not needed since a single product could already carry the plan. The main tradeoff is accepting a lower in-view rate than the unavailable leaders in exchange for a viable, fully funded plan with reliable scale.
+
+- guard: pass
+- judge: {"names_pick": true, "leader_reason_correct": true, "mentions_rejected_alternative": true, "tradeoff_direction_correct": true, "no_contradiction": true, "no_invented_product": true, "note": ""}
+
+- [ ] I agree with the judge
+
+## Brief7+CTR
+
+- plan: Premium Takeover, Commerce Connect
+- rejected leader: None
+
+> This bundle is the best fit for a CTR-led brief in EMEA because it combines Premium Takeover for stronger click performance at scale with Commerce Connect to extend reach, delivering a blended 1.24% CTR across 970,097 total impressions on the full $25,000 budget. No single product could carry the brief because each option was inventory-constrained below budget, so splitting spend was necessary to fully deploy the budget. Premium Takeover takes the larger share at $19,667.84 versus $5,332.16 for Commerce Connect, but the tradeoff is that the blended result reflects two lower-confidence lines rather than one cleaner, single-product delivery.
+
+- guard: pass
+- judge: {"names_pick": true, "leader_reason_correct": null, "mentions_rejected_alternative": null, "tradeoff_direction_correct": true, "no_contradiction": true, "no_invented_product": true, "note": ""}
+
+- [ ] I agree with the judge

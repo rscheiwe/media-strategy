@@ -1,0 +1,42 @@
+# Media strategy planner: web UI (nginx, :8080) + API (FastAPI, internal :7666) with SQLite on a volume.
+#   cp .env.example .env   # add OPENAI_API_KEY
+#   docker compose up --build            -> http://localhost:8080
+name: media-strategy
+
+services:
+  api:
+    build: ./api
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      APP_DB_PATH: /data/chat.db
+      APP_CASE_DB_PATH: /srv/case/case.db
+      APP_CHAT_BASE_URL: ${APP_CHAT_BASE_URL:-}
+    volumes:
+      # Chat history. The case data (api/case_data/) is baked into the image; case.db is rebuilt
+      # from it on every start.
+      - chatdata:/data
+    expose:
+      - "7666"
+    # A real PID 1 reaps any process an analysis child leaves behind after a kill.
+    init: true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:7666/health', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      start_period: 10s
+      retries: 5
+
+  web:
+    build: ./web
+    ports:
+      - "${WEB_PORT:-8080}:8080"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  chatdata:

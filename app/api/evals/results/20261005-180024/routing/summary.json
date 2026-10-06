@@ -1,0 +1,42 @@
+{
+  "A": {
+    "turn_accuracy": 0.9180327868852459,
+    "trigger_recall": 1.0,
+    "args_accuracy": 1.0,
+    "ask_accuracy": 1.0,
+    "false_triggers": 2,
+    "false_trigger_rate": 0.07142857142857142,
+    "silent_turns": 3,
+    "invented_recommendations": 0,
+    "slot_hallucinations": 0,
+    "errors": 1,
+    "pass_k": "47/52",
+    "by_category": {
+      "analysis": "6/6",
+      "follow_up": "4/7",
+      "mid_run": "0/2",
+      "should_ask": "15/15",
+      "should_call": "16/16",
+      "should_not_call": "15/15"
+    },
+    "ambiguous": [
+      "ambiguous_what_if_budget#0: ran",
+      "ambiguous_hypothetical_brief#0: form",
+      "app_bank_inferred#0: ran"
+    ],
+    "first_visible_p50_s": 0.56,
+    "first_visible_p95_s": 0.95,
+    "first_content_p50_s": 0.77,
+    "first_content_p95_s": 1.18,
+    "latency_p50_s": 2.13,
+    "latency_p95_s": 3.29,
+    "llm_calls_per_turn": 1.61,
+    "llm_calls_by_caller": {
+      "chat": 77,
+      "explain": 26
+    },
+    "tokens_per_turn": 7017,
+    "cost_usd": null
+  },
+  "decision": "n/a (need both approaches)"
+}

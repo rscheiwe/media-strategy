@@ -1,0 +1,581 @@
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Code panels (components/ai-elements/code-block.jsx): GitHub-light-like tokens. */
+    --code-bg: 220 20% 98.5%;
+    --code-header: 220 16% 95.5%;
+    --code-border: 218 15% 88%;
+    --code-gutter: 218 10% 70%;
+    --code-fg: 215 25% 18%;
+    --code-comment: 214 9% 46%;
+    --code-keyword: 356 72% 47%;
+    --code-string: 212 92% 20%;
+    --code-number: 212 98% 34%;
+    --code-function: 262 50% 50%;
+    --code-property: 199 89% 32%;
+    --code-punctuation: 215 14% 40%;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 3.9216%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9216%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9216%;
+    --primary: 225.4286 84% 49.0196%;
+    --primary-foreground: 0 0% 98.0392%;
+    --secondary: 220 13.0435% 90.9804%;
+    --secondary-foreground: 0 0% 9.0196%;
+    --muted: 220 13.0435% 90.9804%;
+    --muted-foreground: 0 0% 45.098%;
+    --accent: 220 13.0435% 90.9804%;
+    --accent-foreground: 0 0% 9.0196%;
+    --destructive: 357.1429 100% 45.2941%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 216 15.625% 87.451%;
+    --input: 216 15.625% 87.451%;
+    --ring: 225.4286 84% 49.0196%;
+    --radius: 0.625rem;
+    --chart-1: 17.8776 100% 48.0392%;
+    --chart-2: 174.8 100% 29.4118%;
+    --chart-3: 195.7143 72.4138% 22.7451%;
+    --chart-4: 43.5294 100% 50%;
+    --chart-5: 36.378 100% 49.8039%;
+    --sidebar: 0 0% 98.0392%;
+    --sidebar-foreground: 0 0% 3.9216%;
+    --sidebar-primary: 225.4286 84% 49.0196%;
+    --sidebar-primary-foreground: 0 0% 98.0392%;
+    --sidebar-accent: 220 13.0435% 90.9804%;
+    --sidebar-accent-foreground: 0 0% 9.0196%;
+    --sidebar-border: 216 15.625% 87.451%;
+    --sidebar-ring: 225.4286 84% 49.0196%;
+    --font-sans:
+      ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol", "Noto Color Emoji";
+    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-mono:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+      monospace;
+    --shadow-x: 0;
+    --shadow-y: 1px;
+    --shadow-blur: 3px;
+    --shadow-spread: 0px;
+    --shadow-opacity: 0.1;
+    --shadow-color: #000000;
+    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
+    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+    --tracking-normal: 0em;
+    --spacing: 0.25rem;
+    --scrollbar-track: hsl(220 14% 94%);
+    --scrollbar-thumb: hsl(220 10% 76%);
+    --scrollbar-thumb-hover: hsl(220 10% 68%);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  *:focus:not([data-slot="dropdown-menu-content"]),
+  *:focus-visible:not([data-slot="dropdown-menu-content"]) {
+    outline: none !important;
+    box-shadow: none !important;
+    --tw-ring-offset-shadow: 0 0 #0000 !important;
+    --tw-ring-shadow: 0 0 #0000 !important;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 9999px;
+    border: 1px solid var(--scrollbar-track);
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+  .theme {
+    --font-heading: var(--font-sans);
+    --font-sans: "Geist Variable", sans-serif;
+  }
+  .dark {
+    /* Code panels: GitHub-dark-like tokens. */
+    --code-bg: 223 30% 9%;
+    --code-header: 223 24% 12%;
+    --code-border: 224 19% 20%;
+    --code-gutter: 220 10% 38%;
+    --code-fg: 214 30% 88%;
+    --code-comment: 215 12% 58%;
+    --code-keyword: 3 100% 72%;
+    --code-string: 205 100% 82%;
+    --code-number: 207 100% 74%;
+    --code-function: 268 100% 83%;
+    --code-property: 196 85% 70%;
+    --code-punctuation: 215 15% 66%;
+    --background: 225 32% 7%;
+    --foreground: 214 40% 92%;
+    --card: 223 26% 12%;
+    --card-foreground: 214 35% 90%;
+    --popover: 223 23% 17%;
+    --popover-foreground: 214 35% 90%;
+    --primary: 221.4035 95.5307% 64.902%;
+    --primary-foreground: 222.8571 41.1765% 13.3333%;
+    --secondary: 224 19% 20%;
+    --secondary-foreground: 210 40% 96%;
+    --muted: 223 20% 14%;
+    --muted-foreground: 215 16% 70%;
+    --accent: 218.5714 20.2899% 27.0588%;
+    --accent-foreground: 216 12.1951% 83.9216%;
+    --destructive: 358.8387 100% 69.6078%;
+    --destructive-foreground: 0 0% 98.0392%;
+    --border: 224 19% 24%;
+    --input: 224 19% 24%;
+    --ring: 221.4035 95.5307% 64.902%;
+    --chart-1: 211.6364 100% 78.4314%;
+    --chart-2: 217.3404 91.2621% 59.6078%;
+    --chart-3: 221.5842 86.3248% 54.1176%;
+    --chart-4: 223.75 78.6885% 47.8431%;
+    --chart-5: 226.4789 69.6078% 40%;
+    --sidebar: 223 26% 12%;
+    --sidebar-foreground: 214 35% 90%;
+    --sidebar-primary: 221.4035 95.5307% 64.902%;
+    --sidebar-primary-foreground: 222.8571 41.1765% 13.3333%;
+    --sidebar-accent: 224 19% 20%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 224 19% 24%;
+    --sidebar-ring: 221.4035 95.5307% 64.902%;
+    --font-sans:
+      ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol", "Noto Color Emoji";
+    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-mono:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+      monospace;
+    --shadow-x: 0;
+    --shadow-y: 1px;
+    --shadow-blur: 3px;
+    --shadow-spread: 0px;
+    --shadow-opacity: 0.1;
+    --shadow-color: #000000;
+    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
+    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+    --scrollbar-track: hsl(223 18% 16%);
+    --scrollbar-thumb: hsl(223 10% 38%);
+    --scrollbar-thumb-hover: hsl(223 10% 48%);
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* Dashboard refresh (filters changed, new data loading): keep the current charts in place so nothing
+   jumps, but make the wait obvious — content dims, a light sweep crosses every card and stat tile, and
+   an indeterminate bar runs under the filter row. Reduced motion keeps the dim, drops the movement. */
+.viz-refreshing figure,
+.viz-refreshing [data-slot="stat-tile"] {
+  position: relative;
+  overflow: hidden;
+}
+.viz-refreshing figure > *,
+.viz-refreshing [data-slot="stat-tile"] > * {
+  opacity: 0.4;
+  transition: opacity 150ms ease-out;
+}
+.viz-refreshing figure::after,
+.viz-refreshing [data-slot="stat-tile"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    hsl(var(--foreground) / 0.07) 50%,
+    transparent 70%
+  );
+  background-size: 250% 100%;
+  animation: viz-sweep 1.3s ease-in-out infinite;
+}
+@keyframes viz-sweep {
+  from {
+    background-position: 125% 0;
+  }
+  to {
+    background-position: -125% 0;
+  }
+}
+.viz-progress {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 30%;
+  border-radius: inherit;
+  background: hsl(var(--primary));
+  animation: viz-progress 1.1s ease-in-out infinite;
+}
+@keyframes viz-progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(340%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .viz-refreshing figure::after,
+  .viz-refreshing [data-slot="stat-tile"]::after {
+    animation: none;
+  }
+  .viz-progress {
+    animation: none;
+    width: 100%;
+    opacity: 0.5;
+  }
+}
+
+@keyframes chat-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes evolution-line-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.evolution-line-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: evolution-line-draw 1250ms ease-out forwards;
+}
+
+@keyframes dropdown-menu-in {
+  from {
+    opacity: 0;
+    transform: translate3d(var(--dropdown-enter-x, 0), var(--dropdown-enter-y, -6px), 0) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes dropdown-menu-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(var(--dropdown-exit-x, 0), var(--dropdown-exit-y, -4px), 0) scale(0.985);
+  }
+}
+
+@keyframes sheet-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sheet-overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes sheet-in-from-right {
+  from {
+    opacity: 0.92;
+    transform: translate3d(100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes sheet-out-to-right {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0.96;
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes sheet-in-from-left {
+  from {
+    opacity: 0.92;
+    transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes sheet-out-to-left {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0.96;
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@keyframes sheet-in-from-bottom {
+  from {
+    opacity: 0.92;
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes sheet-out-to-bottom {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0.96;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+@keyframes sheet-in-from-top {
+  from {
+    opacity: 0.92;
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes sheet-out-to-top {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0.96;
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+[data-slot="sheet-overlay"] {
+  will-change: opacity;
+}
+
+[data-slot="sheet-overlay"][data-state="open"] {
+  animation: sheet-overlay-in 260ms ease-out;
+}
+
+[data-slot="sheet-overlay"][data-state="closed"] {
+  animation: sheet-overlay-out 180ms ease-in;
+}
+
+[data-slot="sheet-content"] {
+  will-change: transform, opacity;
+}
+
+[data-slot="sheet-content"][data-side="right"][data-state="open"] {
+  animation: sheet-in-from-right 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-slot="sheet-content"][data-side="right"][data-state="closed"] {
+  animation: sheet-out-to-right 360ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-slot="sheet-content"][data-side="left"][data-state="open"] {
+  animation: sheet-in-from-left 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-slot="sheet-content"][data-side="left"][data-state="closed"] {
+  animation: sheet-out-to-left 360ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-slot="sheet-content"][data-side="bottom"][data-state="open"] {
+  animation: sheet-in-from-bottom 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-slot="sheet-content"][data-side="bottom"][data-state="closed"] {
+  animation: sheet-out-to-bottom 360ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-slot="sheet-content"][data-side="top"][data-state="open"] {
+  animation: sheet-in-from-top 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-slot="sheet-content"][data-side="top"][data-state="closed"] {
+  animation: sheet-out-to-top 360ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-slot="dropdown-menu-content"],
+[data-slot="dropdown-menu-sub-content"] {
+  transform-origin: var(--radix-dropdown-menu-content-transform-origin);
+  will-change: transform, opacity;
+}
+
+[data-slot="dropdown-menu-content"][data-side="bottom"],
+[data-slot="dropdown-menu-sub-content"][data-side="bottom"] {
+  --dropdown-enter-x: 0;
+  --dropdown-enter-y: -6px;
+  --dropdown-exit-x: 0;
+  --dropdown-exit-y: -4px;
+}
+
+[data-slot="dropdown-menu-content"][data-side="top"],
+[data-slot="dropdown-menu-sub-content"][data-side="top"] {
+  --dropdown-enter-x: 0;
+  --dropdown-enter-y: 6px;
+  --dropdown-exit-x: 0;
+  --dropdown-exit-y: 4px;
+}
+
+[data-slot="dropdown-menu-content"][data-side="left"],
+[data-slot="dropdown-menu-sub-content"][data-side="left"] {
+  --dropdown-enter-x: 6px;
+  --dropdown-enter-y: 0;
+  --dropdown-exit-x: 4px;
+  --dropdown-exit-y: 0;
+}
+
+[data-slot="dropdown-menu-content"][data-side="right"],
+[data-slot="dropdown-menu-sub-content"][data-side="right"] {
+  --dropdown-enter-x: -6px;
+  --dropdown-enter-y: 0;
+  --dropdown-exit-x: -4px;
+  --dropdown-exit-y: 0;
+}
+
+[data-slot="dropdown-menu-content"][data-state="open"],
+[data-slot="dropdown-menu-sub-content"][data-state="open"] {
+  animation: dropdown-menu-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-slot="dropdown-menu-content"][data-state="closed"],
+[data-slot="dropdown-menu-sub-content"][data-state="closed"] {
+  animation: dropdown-menu-out 120ms ease-out;
+}
+
+/* ---------------------------------------------------------------------------
+   Chart tokens (dataviz reference palette). Light and dark are each SELECTED
+   steps, validated against the card surface they render on (#ffffff light,
+   #171b27 dark) with the dataviz validator — not an automatic flip. Charts
+   reference roles (var(--viz-*)), never raw hex.
+   --------------------------------------------------------------------------- */
+:root {
+  --viz-surface: #ffffff;
+  --viz-series-1: #2a78d6; /* blue */
+  --viz-series-2: #eb6834; /* orange */
+  --viz-series-3: #1baf7a; /* aqua — <3:1 on light: legend + table view are the relief */
+  --viz-series-4: #eda100; /* yellow — <3:1 on light: direct end labels + legend + table */
+  --viz-series-5: #e87ba4; /* magenta — <3:1 on light: same relief */
+  --viz-deemphasis: #c3c2b7;
+  /* Gain/loss poles: teal-green ↔ red, validated together (deutan ΔE 13.1 light / 14.5 dark).
+     Blue stays reserved for series identity. */
+  --viz-positive: #0d9488;
+  --viz-negative: #dc2626;
+  --viz-grid: #e1e0d9;
+  --viz-axis: #c3c2b7;
+  --viz-muted: #898781;
+  --viz-delta-good: #006300;
+  /* Heat cells (Year by year): RGB channels, so cells can scale their own alpha. */
+  --viz-heat-pos: 13 148 136; /* = --viz-positive */
+  --viz-heat-neg: 220 38 38; /* = --viz-negative */
+  --viz-heat-empty: 0 0% 94%;
+  --viz-delta-bad: #d03b3b;
+  /* Sequential (blue), low → high */
+  --viz-seq-0: #cde2fb;
+  --viz-seq-1: #9ec5f4;
+  --viz-seq-2: #6da7ec;
+  --viz-seq-3: #3987e5;
+  --viz-seq-4: #256abf;
+  --viz-seq-5: #184f95;
+  --viz-seq-6: #0d366b;
+}
+
+.dark {
+  --viz-surface: #171b27;
+  --viz-series-1: #3987e5;
+  --viz-series-2: #d95926;
+  --viz-series-3: #199e70;
+  --viz-series-4: #c98500;
+  --viz-series-5: #d55181;
+  --viz-deemphasis: #6e6d68; /* ~3:1 on the dark card, so "can't tell yet" marks stay visible */
+  --viz-positive: #12a39a;
+  --viz-negative: #dc2626;
+  --viz-grid: #2c2c2a;
+  --viz-axis: #383835;
+  --viz-muted: #898781;
+  --viz-delta-good: #0ca30c;
+  --viz-heat-pos: 18 163 154;
+  --viz-heat-neg: 220 38 38;
+  --viz-heat-empty: 223 20% 16%;
+  --viz-delta-bad: #e66767;
+  /* Sequential on dark: low recedes into the surface, high is brightest. */
+  --viz-seq-0: #0d366b;
+  --viz-seq-1: #104281;
+  --viz-seq-2: #184f95;
+  --viz-seq-3: #256abf;
+  --viz-seq-4: #3987e5;
+  --viz-seq-5: #6da7ec;
+  --viz-seq-6: #9ec5f4;
+}

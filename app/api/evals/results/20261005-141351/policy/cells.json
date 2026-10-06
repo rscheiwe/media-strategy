@@ -1,0 +1,211 @@
+{
+  "cells": {
+    "Acme": {
+      "raw | single_first (default)": "Premium Takeover",
+      "raw | kpi_max": "Commerce Connect + Premium Takeover (bundle)",
+      "adjusted (default) | single_first (default)": "Premium Takeover",
+      "adjusted (default) | kpi_max": "Commerce Connect + Premium Takeover (bundle)",
+      "threshold 0.80 | single_first (default)": "Premium Takeover",
+      "threshold 0.80 | kpi_max": "Commerce Connect + Premium Takeover (bundle)",
+      "adjusted + 10% headroom | single_first (default)": "Commerce Connect + Premium Takeover (bundle)",
+      "adjusted + 10% headroom | kpi_max": "Commerce Connect + Premium Takeover (bundle)",
+      "adjusted, absorb 98% | single_first (default)": "Premium Takeover",
+      "adjusted, absorb 98% | kpi_max": "Commerce Connect + Premium Takeover (bundle)"
+    },
+    "Burger": {
+      "raw | single_first (default)": "Attention Builder",
+      "raw | kpi_max": "Attention Builder",
+      "adjusted (default) | single_first (default)": "Attention Builder",
+      "adjusted (default) | kpi_max": "Social Amplifier + Video Spotlight (bundle)",
+      "threshold 0.80 | single_first (default)": "Attention Builder",
+      "threshold 0.80 | kpi_max": "Attention Builder",
+      "adjusted + 10% headroom | single_first (default)": "Commerce Connect",
+      "adjusted + 10% headroom | kpi_max": "Social Amplifier + Video Spotlight (bundle)",
+      "adjusted, absorb 98% | single_first (default)": "Attention Builder",
+      "adjusted, absorb 98% | kpi_max": "Social Amplifier + Video Spotlight (bundle)"
+    },
+    "CineVerse": {
+      "raw | single_first (default)": "Attention Builder + Premium Takeover (bundle)",
+      "raw | kpi_max": "Attention Builder + Premium Takeover (bundle)",
+      "adjusted (default) | single_first (default)": "Attention Builder + Premium Takeover (bundle)",
+      "adjusted (default) | kpi_max": "Attention Builder + Premium Takeover (bundle)",
+      "threshold 0.80 | single_first (default)": "Attention Builder + Premium Takeover (bundle)",
+      "threshold 0.80 | kpi_max": "Attention Builder + Premium Takeover (bundle)",
+      "adjusted + 10% headroom | single_first (default)": "Attention Builder + Premium Takeover (bundle)",
+      "adjusted + 10% headroom | kpi_max": "Attention Builder + Premium Takeover (bundle)",
+      "adjusted, absorb 98% | single_first (default)": "Attention Builder + Premium Takeover (bundle)",
+      "adjusted, absorb 98% | kpi_max": "Attention Builder + Premium Takeover (bundle)"
+    },
+    "Stellar": {
+      "raw | single_first (default)": "Commerce Connect",
+      "raw | kpi_max": "Commerce Connect",
+      "adjusted (default) | single_first (default)": "Commerce Connect",
+      "adjusted (default) | kpi_max": "Commerce Connect",
+      "threshold 0.80 | single_first (default)": "Commerce Connect",
+      "threshold 0.80 | kpi_max": "Commerce Connect",
+      "adjusted + 10% headroom | single_first (default)": "Attention Builder + Display Plus (bundle)",
+      "adjusted + 10% headroom | kpi_max": "Attention Builder + Display Plus (bundle)",
+      "adjusted, absorb 98% | single_first (default)": "Commerce Connect",
+      "adjusted, absorb 98% | kpi_max": "Commerce Connect"
+    },
+    "Wanderlust": {
+      "raw | single_first (default)": "Video Spotlight + Attention Builder (bundle)",
+      "raw | kpi_max": "Video Spotlight + Attention Builder (bundle)",
+      "adjusted (default) | single_first (default)": "Video Spotlight + Attention Builder (bundle)",
+      "adjusted (default) | kpi_max": "Video Spotlight + Attention Builder (bundle)",
+      "threshold 0.80 | single_first (default)": "Video Spotlight + Attention Builder (bundle)",
+      "threshold 0.80 | kpi_max": "Video Spotlight + Attention Builder (bundle)",
+      "adjusted + 10% headroom | single_first (default)": "Video Spotlight + Attention Builder (bundle)",
+      "adjusted + 10% headroom | kpi_max": "Video Spotlight + Attention Builder (bundle)",
+      "adjusted, absorb 98% | single_first (default)": "Video Spotlight + Attention Builder (bundle)",
+      "adjusted, absorb 98% | kpi_max": "Video Spotlight + Attention Builder (bundle)"
+    },
+    "Brief6/Retail": {
+      "raw | single_first (default)": "Premium Takeover",
+      "raw | kpi_max": "Video Spotlight + Premium Takeover (bundle)",
+      "adjusted (default) | single_first (default)": "Premium Takeover",
+      "adjusted (default) | kpi_max": "Video Spotlight + Premium Takeover (bundle)",
+      "threshold 0.80 | single_first (default)": "Premium Takeover",
+      "threshold 0.80 | kpi_max": "Video Spotlight + Premium Takeover (bundle)",
+      "adjusted + 10% headroom | single_first (default)": "Premium Takeover",
+      "adjusted + 10% headroom | kpi_max": "Video Spotlight + Premium Takeover (bundle)",
+      "adjusted, absorb 98% | single_first (default)": "Premium Takeover",
+      "adjusted, absorb 98% | kpi_max": "Video Spotlight + Premium Takeover (bundle)"
+    },
+    "Brief6/Finance": {
+      "raw | single_first (default)": "Premium Takeover",
+      "raw | kpi_max": "Attention Builder + Video Spotlight (bundle)",
+      "adjusted (default) | single_first (default)": "Premium Takeover",
+      "adjusted (default) | kpi_max": "Attention Builder + Video Spotlight (bundle)",
+      "threshold 0.80 | single_first (default)": "Premium Takeover",
+      "threshold 0.80 | kpi_max": "Attention Builder + Premium Takeover (bundle)",
+      "adjusted + 10% headroom | single_first (default)": "Premium Takeover",
+      "adjusted + 10% headroom | kpi_max": "Attention Builder + Video Spotlight (bundle)",
+      "adjusted, absorb 98% | single_first (default)": "Premium Takeover",
+      "adjusted, absorb 98% | kpi_max": "Attention Builder + Video Spotlight (bundle)"
+    },
+    "Brief6/Travel": {
+      "raw | single_first (default)": "Premium Takeover",
+      "raw | kpi_max": "Video Spotlight + Attention Builder (bundle)",
+      "adjusted (default) | single_first (default)": "Premium Takeover",
+      "adjusted (default) | kpi_max": "Video Spotlight + Attention Builder (bundle)",
+      "threshold 0.80 | single_first (default)": "Premium Takeover",
+      "threshold 0.80 | kpi_max": "Premium Takeover",
+      "adjusted + 10% headroom | single_first (default)": "Premium Takeover",
+      "adjusted + 10% headroom | kpi_max": "Video Spotlight + Attention Builder (bundle)",
+      "adjusted, absorb 98% | single_first (default)": "Premium Takeover",
+      "adjusted, absorb 98% | kpi_max": "Video Spotlight + Attention Builder (bundle)"
+    },
+    "Brief6/QSR": {
+      "raw | single_first (default)": "Premium Takeover",
+      "raw | kpi_max": "Social Amplifier + Video Spotlight (bundle)",
+      "adjusted (default) | single_first (default)": "Social Amplifier + Video Spotlight (bundle)",
+      "adjusted (default) | kpi_max": "Social Amplifier + Video Spotlight (bundle)",
+      "threshold 0.80 | single_first (default)": "Premium Takeover",
+      "threshold 0.80 | kpi_max": "Attention Builder + Video Spotlight (bundle)",
+      "adjusted + 10% headroom | single_first (default)": "Social Amplifier + Video Spotlight (bundle)",
+      "adjusted + 10% headroom | kpi_max": "Social Amplifier + Video Spotlight (bundle)",
+      "adjusted, absorb 98% | single_first (default)": "Social Amplifier + Video Spotlight (bundle)",
+      "adjusted, absorb 98% | kpi_max": "Social Amplifier + Video Spotlight (bundle)"
+    },
+    "Brief6/Entertainment": {
+      "raw | single_first (default)": "Premium Takeover",
+      "raw | kpi_max": "Attention Builder + Video Spotlight (bundle)",
+      "adjusted (default) | single_first (default)": "Premium Takeover",
+      "adjusted (default) | kpi_max": "Attention Builder + Video Spotlight (bundle)",
+      "threshold 0.80 | single_first (default)": "Attention Builder + Display Plus (bundle)",
+      "threshold 0.80 | kpi_max": "Attention Builder + Display Plus (bundle)",
+      "adjusted + 10% headroom | single_first (default)": "Attention Builder + Video Spotlight (bundle)",
+      "adjusted + 10% headroom | kpi_max": "Attention Builder + Video Spotlight (bundle)",
+      "adjusted, absorb 98% | single_first (default)": "Premium Takeover",
+      "adjusted, absorb 98% | kpi_max": "Attention Builder + Video Spotlight (bundle)"
+    },
+    "Brief7/CTR": {
+      "raw | single_first (default)": "Commerce Connect + Attention Builder (bundle)",
+      "raw | kpi_max": "Commerce Connect + Attention Builder (bundle)",
+      "adjusted (default) | single_first (default)": "Premium Takeover + Commerce Connect (bundle)",
+      "adjusted (default) | kpi_max": "Premium Takeover + Commerce Connect (bundle)",
+      "threshold 0.80 | single_first (default)": "Attention Builder + Display Plus (bundle)",
+      "threshold 0.80 | kpi_max": "Attention Builder + Display Plus (bundle)",
+      "adjusted + 10% headroom | single_first (default)": "Premium Takeover + Commerce Connect (bundle)",
+      "adjusted + 10% headroom | kpi_max": "Premium Takeover + Commerce Connect (bundle)",
+      "adjusted, absorb 98% | single_first (default)": "Premium Takeover + Commerce Connect (bundle)",
+      "adjusted, absorb 98% | kpi_max": "Premium Takeover + Commerce Connect (bundle)"
+    },
+    "Brief7/in-view": {
+      "raw | single_first (default)": "Attention Builder + Video Spotlight (bundle)",
+      "raw | kpi_max": "Attention Builder + Video Spotlight (bundle)",
+      "adjusted (default) | single_first (default)": "Attention Builder + Video Spotlight (bundle)",
+      "adjusted (default) | kpi_max": "Attention Builder + Video Spotlight (bundle)",
+      "threshold 0.80 | single_first (default)": "Attention Builder + Video Spotlight (bundle)",
+      "threshold 0.80 | kpi_max": "Attention Builder + Video Spotlight (bundle)",
+      "adjusted + 10% headroom | single_first (default)": "Attention Builder + Video Spotlight (bundle)",
+      "adjusted + 10% headroom | kpi_max": "Attention Builder + Video Spotlight (bundle)",
+      "adjusted, absorb 98% | single_first (default)": "Attention Builder + Video Spotlight (bundle)",
+      "adjusted, absorb 98% | kpi_max": "Attention Builder + Video Spotlight (bundle)"
+    }
+  },
+  "changed": {
+    "Acme": [
+      "raw | kpi_max",
+      "adjusted (default) | kpi_max",
+      "threshold 0.80 | kpi_max",
+      "adjusted + 10% headroom | single_first (default)",
+      "adjusted + 10% headroom | kpi_max",
+      "adjusted, absorb 98% | kpi_max"
+    ],
+    "Burger": [
+      "adjusted (default) | kpi_max",
+      "adjusted + 10% headroom | single_first (default)",
+      "adjusted + 10% headroom | kpi_max",
+      "adjusted, absorb 98% | kpi_max"
+    ],
+    "CineVerse": [],
+    "Stellar": [
+      "adjusted + 10% headroom | single_first (default)",
+      "adjusted + 10% headroom | kpi_max"
+    ],
+    "Wanderlust": [],
+    "Brief6/Retail": [
+      "raw | kpi_max",
+      "adjusted (default) | kpi_max",
+      "threshold 0.80 | kpi_max",
+      "adjusted + 10% headroom | kpi_max",
+      "adjusted, absorb 98% | kpi_max"
+    ],
+    "Brief6/Finance": [
+      "raw | kpi_max",
+      "adjusted (default) | kpi_max",
+      "threshold 0.80 | kpi_max",
+      "adjusted + 10% headroom | kpi_max",
+      "adjusted, absorb 98% | kpi_max"
+    ],
+    "Brief6/Travel": [
+      "raw | kpi_max",
+      "adjusted (default) | kpi_max",
+      "adjusted + 10% headroom | kpi_max",
+      "adjusted, absorb 98% | kpi_max"
+    ],
+    "Brief6/QSR": [
+      "raw | single_first (default)",
+      "threshold 0.80 | single_first (default)",
+      "threshold 0.80 | kpi_max"
+    ],
+    "Brief6/Entertainment": [
+      "raw | kpi_max",
+      "adjusted (default) | kpi_max",
+      "threshold 0.80 | single_first (default)",
+      "threshold 0.80 | kpi_max",
+      "adjusted + 10% headroom | single_first (default)",
+      "adjusted + 10% headroom | kpi_max",
+      "adjusted, absorb 98% | kpi_max"
+    ],
+    "Brief7/CTR": [
+      "raw | single_first (default)",
+      "raw | kpi_max",
+      "threshold 0.80 | single_first (default)",
+      "threshold 0.80 | kpi_max"
+    ],
+    "Brief7/in-view": []
+  }
+}

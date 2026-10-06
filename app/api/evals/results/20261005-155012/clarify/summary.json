@@ -1,0 +1,30 @@
+{
+  "A": {
+    "completion": 1.0,
+    "by_scenario": {
+      "form_submit": "1/1",
+      "text_answer": "1/1",
+      "invalid_geo": "1/1",
+      "change_mid_loop": "1/1",
+      "stale_form": "1/1",
+      "double_submit": "1/1"
+    },
+    "reasks_of_known_details": 0,
+    "submit_turn_llm_calls": 0,
+    "failures": []
+  },
+  "B": {
+    "completion": 1.0,
+    "by_scenario": {
+      "form_submit": "1/1",
+      "text_answer": "1/1",
+      "invalid_geo": "1/1",
+      "change_mid_loop": "1/1",
+      "stale_form": "1/1",
+      "double_submit": "1/1"
+    },
+    "reasks_of_known_details": 0,
+    "submit_turn_llm_calls": 0,
+    "failures": []
+  }
+}
