@@ -1045,3 +1045,35 @@ def test_bundles_prefer_full_spend(conn):
     fallback_expected = truth.best_bundle(fallback_truth)
     assert [line.product_id for line in fallback_actual.plan.lines] == [line.product_id for line in fallback_expected.lines] == ["P003", "P006"]
     assert fallback_actual.plan.meets_goal is True
+
+
+def test_plans_report_expected_outcomes_and_cost(conn):
+    """The card's delivery comparison: outcomes = impressions x KPI, cost per click (CTR) or per
+    1,000 viewable (in-view), recomputed from the raw-data oracle; the bundle not chosen carries
+    its own totals. Shown for comparison only: the pick is unchanged (see the tests above)."""
+    for name, sample in truth.SAMPLE_SLOTS.items():
+        expected_plan, _ = truth.recommend(sample)
+        actual = recommend(conn, _slots(sample)).plan
+        outcomes = sum(line.impressions * line.kpi_value for line in expected_plan.lines)
+        per = 1000 if sample.kpi == "in_view_rate" else 1
+        assert isclose(actual.expected_outcomes, outcomes, rel_tol=1e-9), name
+        assert isclose(actual.cost_per_outcome, expected_plan.total_spend / outcomes * per, rel_tol=1e-9), name
+        assert isclose(sum(line.expected_outcomes for line in actual.lines), outcomes, rel_tol=1e-9), name
+
+    acme = recommend(conn, Slots(client_name="Acme Shoes", vertical="Retail", kpi="ctr", geo="US", budget=30_000))
+    assert [line.product_name for line in acme.plan.lines] == ["Premium Takeover"]
+    assert round(acme.plan.expected_outcomes) == 8_493 and round(acme.plan.cost_per_outcome, 2) == 3.53
+    bundle = next(a for a in acme.alternatives if a.kind == "bundle")
+    assert [line.product_id for line in bundle.plan.lines] == bundle.product_ids == ["P003", "P006"]
+    assert round(bundle.plan.expected_outcomes) == 23_592 and round(bundle.plan.cost_per_outcome, 2) == 1.27
+    assert all(a.plan is None for a in acme.alternatives if a.kind != "bundle")
+
+    # Payloads saved before these fields existed still load (old chats, the example chats).
+    old = acme.model_dump(mode="json")
+    del old["plan"]["expected_outcomes"], old["plan"]["cost_per_outcome"]
+    for line in old["plan"]["lines"]:
+        del line["expected_outcomes"]
+    for alt in old["alternatives"]:
+        del alt["plan"]
+    restored = type(acme).model_validate(old)
+    assert restored.plan.expected_outcomes == 0.0 and restored.plan.cost_per_outcome is None

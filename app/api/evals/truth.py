@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from itertools import combinations
-from math import floor
+from math import floor as _math_floor
 from pathlib import Path
 from typing import Literal
 
@@ -20,6 +20,13 @@ ROOT = Path(__file__).resolve().parents[1] / "case_data"  # app/api/case_data
 VALID_VERTICALS = frozenset({"Retail", "Finance", "Travel", "QSR", "Entertainment"})
 VALID_KPIS = frozenset({"ctr", "in_view_rate"})
 VALID_GEOS = frozenset({"US", "EMEA", "APAC"})
+
+
+def floor(x: float) -> int:
+    """Round down, tolerating float error: $15,488.55 at a $15 CPM is exactly 1,032,570
+    impressions, but plain division gives 1,032,569.999... Without the epsilon this oracle
+    undercounted by one impression on 46 plan lines of the 420-brief matrix."""
+    return _math_floor(x + 1e-9)
 
 
 @dataclass(frozen=True)

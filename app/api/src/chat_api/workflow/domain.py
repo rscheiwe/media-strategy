@@ -77,6 +77,7 @@ class PlanLine(BaseModel):
     kpi_value: float
     confidence: float
     low_confidence: bool
+    expected_outcomes: float = 0.0  # clicks (CTR) or viewable impressions (in-view): impressions x KPI
 
 
 class Plan(BaseModel):
@@ -87,6 +88,9 @@ class Plan(BaseModel):
     total_impressions: int = 0
     blended_kpi: float = 0.0
     meets_goal: bool | None = None
+    # What the plan delivers for its spend; shown for comparison, never used to rank.
+    expected_outcomes: float = 0.0
+    cost_per_outcome: float | None = None  # USD per click (CTR) or per 1,000 viewable (in-view)
 
 
 class Alternative(BaseModel):
@@ -95,6 +99,7 @@ class Alternative(BaseModel):
     kpi_value: float
     reasons: list[str] = Field(default_factory=list)
     delta: dict[str, float] = Field(default_factory=dict)  # kpi_points, impression_shortfall, unabsorbed_spend
+    plan: Plan | None = None  # bundle only: the bundle's lines and totals, for the delivery comparison
 
 
 class Tradeoff(BaseModel):

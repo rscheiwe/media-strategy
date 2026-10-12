@@ -8,6 +8,7 @@ import {
   artifactParts,
   formParts,
   openFormId,
+  deliveryRows,
   recommendationMarkdown,
   stageParts,
   submissionText,
@@ -151,10 +152,70 @@ describe("recommendation UI", () => {
     expect(within(card).getByRole("button", { name: /Calculated benchmarks and inventory/ })).toHaveAttribute("aria-expanded", "true");
     expect(within(benchmarkTable).getByText("Commerce Connect")).toBeInTheDocument();
     expect(within(card).getByRole("button", { name: "View report" })).toBeInTheDocument();
+    // A payload saved before the delivery fields existed shows no delivery comparison.
+    expect(within(card).queryByRole("group", { name: "What the budget delivers" })).not.toBeInTheDocument();
 
     render(<WorkflowStages stages={[{ run_id: "run-1", stage: "benchmarks", label: "Benchmarks", status: "done", summary: "6 products", ms: 12 }]} />);
     expect(screen.getByRole("list", { name: "Workflow stages" })).toHaveTextContent(/Benchmarks\s*·\s*6 products/);
     expect(screen.getByText("12 ms")).toBeInTheDocument();
+  });
+
+  it("compares what the budget delivers in a pale-yellow inner card", () => {
+    const withDelivery = {
+      ...rec,
+      plan: { ...rec.plan, expected_outcomes: 8493.02, cost_per_outcome: 3.5323 },
+      alternatives: [
+        ...rec.alternatives,
+        {
+          product_ids: ["P003", "P006"],
+          kind: "bundle",
+          kpi_value: 0.01156,
+          delta: { kpi_points: 0.25, uplift_pct: 27.6 },
+          plan: {
+            kind: "bundle",
+            lines: [
+              { product_id: "P003", product_name: "Commerce Connect" },
+              { product_id: "P006", product_name: "Attention Builder" },
+            ],
+            blended_kpi: 0.01156,
+            expected_outcomes: 23592.4,
+            cost_per_outcome: 1.2716,
+          },
+        },
+      ],
+    };
+    render(<RecommendationCard artifact={{ id: "artifact-rec-2", title: "Acme · Retail · US", payload: withDelivery }} />);
+    const delivery = screen.getByRole("group", { name: "What the budget delivers" });
+    expect(delivery).toHaveClass("bg-yellow-50");
+    expect(delivery).toHaveTextContent("What $30,000 delivers");
+    expect(delivery).toHaveTextContent("Expected clicks");
+    expect(delivery).toHaveTextContent("Cost per click");
+    const rows = within(delivery).getAllByRole("row");
+    expect(rows[1]).toHaveTextContent(/Premium Takeover\s*\(recommended\)\s*0\.91%\s*8,493\s*\$3\.53/);
+    expect(rows[2]).toHaveTextContent(/Commerce Connect \+ Attention Builder\s*\(bundle, not chosen\)\s*1\.16%\s*23,592\s*\$1\.27/);
+    expect(delivery).toHaveTextContent("don't change the pick");
+
+    const markdown = recommendationMarkdown({ title: "Acme · Retail · US", payload: withDelivery });
+    expect(markdown.indexOf("**What $30,000 delivers**")).toBeGreaterThan(markdown.indexOf("**Recommended product**"));
+    expect(markdown.indexOf("**What $30,000 delivers**")).toBeLessThan(markdown.indexOf("**Why this is the best fit**"));
+    expect(markdown).toContain("| Option | CTR | Expected clicks | Cost per click |");
+    expect(markdown).toContain("| Premium Takeover (recommended) | 0.91% | 8,493 | $3.53 |");
+    expect(markdown).toContain("| Commerce Connect + Attention Builder (bundle, not chosen) | 1.16% | 23,592 | $1.27 |");
+
+    const inView = deliveryRows({ ...withDelivery, requirements: { ...rec.requirements, kpi: "in_view_rate" } });
+    expect(inView).toHaveLength(2);
+    cleanup();
+    render(
+      <RecommendationCard
+        artifact={{ id: "artifact-rec-3", title: "Burger · QSR · US", payload: { ...withDelivery, requirements: { ...rec.requirements, kpi: "in_view_rate" } } }}
+      />,
+    );
+    const inViewCard = screen.getByRole("group", { name: "What the budget delivers" });
+    expect(inViewCard).toHaveTextContent("Expected viewable imps");
+    expect(inViewCard).toHaveTextContent("Cost per 1,000 viewable");
+
+    expect(deliveryRows({ ...withDelivery, plan: { kind: "none", lines: [] } })).toEqual([]);
+    expect(deliveryRows(rec)).toEqual([]);
   });
 
   it("reveals a fresh card and copies it as markdown", async () => {

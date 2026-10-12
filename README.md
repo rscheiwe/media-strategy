@@ -54,7 +54,7 @@ The examples live in `app/api/src/chat_api/storage/example_chats.json`. Each use
 | 5, 8.5. Scale check, with an `inventory_risk` decision | **Usable inventory = forecast × confidence** (configurable) |
 | 8.6. Rank viable products by KPI | Single product first; otherwise a bundle of up to 3, filled in KPI rank order. See [Selection rules](#selection-rules). |
 | 6, 8.7. Explain the selection, rejected alternatives and tradeoffs | Every product ranked above the pick is listed with its budget, goal or inventory reason. Tradeoffs are computed. |
-| 8.8, 9. A structured response the UI renders | A recommendation card, in requirement-9 order: requirements, the recommended product or bundle with forecasted impressions, why it's the best fit, rejected top alternatives, tradeoffs, calculated benchmarks. It can be copied as Markdown. |
+| 8.8, 9. A structured response the UI renders | A recommendation card, in requirement-9 order: requirements, the recommended product or bundle with forecasted impressions, why it's the best fit, rejected top alternatives, tradeoffs, calculated benchmarks. A highlighted box compares what the budget delivers (expected clicks or viewable impressions, and their cost) for the pick and the bundle not chosen; it doesn't change the pick. It can be copied as Markdown. |
 
 Single steps also run on their own as tools: `get_benchmarks`, `select_products` and `check_scale` (requirements 3–5).
 
@@ -221,7 +221,14 @@ The brief leaves these decisions open. They live in `app/api/src/chat_api/workfl
 - *Maximizing volume* (clicks or viewable impressions) traded quality for cheap impressions.
 - Rank-order filling is what "rank viable products by the requested KPI" means for a bundle.
 
-`evals/run_matrix.py` checks these rules over 420 briefs (5 verticals × 2 KPIs × 3 geos × 7 budgets × goal or none) against an independent pandas implementation, with 0 mismatches.
+`evals/run_matrix.py` checks these rules over 420 briefs (5 verticals × 2 KPIs × 3 geos × 7 budgets × goal or none) against an independent pandas implementation (`evals/truth.py`). The comparison is strict on every brief, fallback and no-plan cases included: plan kind, products, spend and impressions per line, and unspent budget. Result: 0 mismatches.
+
+**Checked against the constraints, too.** The checks above re-implement the rules, so they confirm the code follows them. `experiments/solvers/` checks the rules against a declarative specification of a valid plan instead (budget, usable inventory, the $2,000 line minimum, at most 3 products, the goal). It searches every plan by brute force, by a MILP solver (HiGHS) and by CP-SAT, over the same 420 briefs.
+- **The exact methods agree on all 420 briefs.**
+- **What the rules give up against the optima:** single-product picks get a median 77% of the maximum possible clicks or viewable impressions, and rank-order bundles 88%. Rank-order bundles match the maximum blended rate (median gap 0).
+- **They found 4 briefs where the rules miss a valid plan** (see Known limitations).
+
+Details: `experiments/solvers/FINDINGS.md` and `docs/OPTIMIZATION_SOLVERS.md`.
 
 ## Configuration (`app/.env`)
 
@@ -270,10 +277,24 @@ The evals are in `app/api/evals/` and write their results to `evals/results/<tim
 | Rationale faithfulness, with an LLM judge | `PYTHONPATH=. uv run python -m evals.run_explain --k 1` | yes |
 
 Headline results:
-- **Selection matrix:** 0 mismatches against the independent implementation.
+- **Selection matrix:** 0 mismatches on all 420 briefs against the independent implementation, compared strictly.
 - **Routing:** 98.4% for the default (B), across 55 conversations.
 - **Clarification:** 6/6 scenarios.
 - **Rationale:** 0 schema problems.
+
+### Experiments
+
+`experiments/` holds standalone studies that informed the design; none of them modify `app/`. Each has a `README.md` and a `FINDINGS.md`; raw outputs go to its `results/` folder (gitignored).
+
+| Experiment | Question | Run (from the experiment's folder) | Live model calls? |
+|---|---|---|---|
+| `solvers/` | Do exact optimization methods agree with brute force, and what do the app's rules give up against the optima? | `uv run python acme.py` (one brief, step by step); `uv run python matrix.py` (all 420 briefs) | no |
+| `workflow_trigger/` | Should the agent or a router decide when the workflow runs? | see its README | yes |
+| `model_compare/` | Which models read the analysis correctly (the QSR question)? | see its FINDINGS | yes |
+| `prompt_ablation/` | Do the chat prompt's rules and examples earn their place? | see its FINDINGS | yes |
+| `jev_router/` | Can a trained classifier route turns? | `uv run python eval_jev.py --k 1` | yes |
+
+The solvers experiment needs no API key. It reads its inputs through the app's own workflow code, so it uses exactly the card's numbers.
 
 
 ## Repository layout
@@ -292,11 +313,13 @@ app/
     evals/               eval runners and the independent oracle (truth.py)
     tests/               offline acceptance tests
   web/                   React + Vite UI (form, recommendation card, activity rail)
-experiments/             earlier experiments (prompt ablation, model comparison, routing)
+experiments/             standalone studies: solvers, workflow trigger, model comparison, prompt ablation, Jev router
+docs/                    design notes: the workflow, the inventory policy, the QSR failure mode, optimization solvers, Q&A prep
 ```
 
 ## Known limitations
 
 - The workflow is validated on OpenAI models only.
-- Bundles are capped at 3 products. Very large budgets (about $60k and up) can leave budget unspent when the top three products' usable inventory is exhausted; the card shows how much.
-- The goal-constrained fallback brute-forces up to 3-product combinations. That's fine for 6 products; a larger catalog would want a top-K prune or a small integer program.
+- Bundles are capped at 3 products. Large budgets ($40k and up) can leave budget unspent when the top three products' usable inventory is exhausted: 112 of the 420 matrix briefs leave $2,000 or more. The card shows how much.
+- **Single products get no budget slack; bundles do.** A single product must absorb the whole budget, while a bundle may leave up to $2,000 unspent. So the app reports "no viable plan" for 4 of the 420 matrix briefs that have one: QSR and Entertainment in APAC at $10,000 with an 800,000 goal, where Social Amplifier alone delivers over 1 million impressions and leaves under $350 unspent. Found by `experiments/solvers/`; not yet changed, because it's a rules decision.
+- The goal-constrained fallback brute-forces up to 3-product combinations. That's fine for 6 products. A larger catalog would want a top-K prune or a small integer program; `experiments/solvers/` shows a MILP reproducing the brute force exactly on all 420 briefs.

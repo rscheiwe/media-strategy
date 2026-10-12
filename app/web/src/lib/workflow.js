@@ -31,6 +31,35 @@ export function count(value) {
   return typeof value === "number" ? Math.round(value).toLocaleString("en-US") : "—";
 }
 
+/** What a plan delivers, per KPI: clicks for CTR, viewable impressions for in-view rate. */
+export const OUTCOME_LABELS = {
+  ctr: { outcomes: "Expected clicks", cost: "Cost per click" },
+  in_view_rate: { outcomes: "Expected viewable imps", cost: "Cost per 1,000 viewable" },
+};
+
+/**
+ * Rows for "What the budget delivers": the recommended plan and, when one is surfaced, the
+ * bundle not chosen, each with its KPI rate, expected outcomes and cost per outcome. Empty for
+ * no plan, and for older payloads computed before these fields existed.
+ */
+export function deliveryRows(rec) {
+  const plan = rec?.plan;
+  if (!plan || plan.kind === "none" || typeof plan.expected_outcomes !== "number") return [];
+  const row = (p, label, note) => ({
+    key: note,
+    label,
+    note,
+    rate: p.blended_kpi,
+    outcomes: p.expected_outcomes,
+    cost: p.cost_per_outcome,
+  });
+  const names = (p) => (p.lines || []).map((line) => line.product_name).join(" + ");
+  const rows = [row(plan, names(plan), "recommended")];
+  const bundle = (rec.alternatives || []).find((a) => a.kind === "bundle" && a.plan);
+  if (bundle) rows.push(row(bundle.plan, names(bundle.plan), "bundle, not chosen"));
+  return rows;
+}
+
 /** Latest snapshot of each data part with an id, in first-seen order. */
 function latestById(parts, type) {
   const order = [];
@@ -190,6 +219,18 @@ export function recommendationMarkdown(artifact) {
         ]),
       );
     }
+  }
+
+  const delivery = deliveryRows(rec);
+  if (delivery.length) {
+    const labels = OUTCOME_LABELS[req.kpi] || OUTCOME_LABELS.ctr;
+    out.push("", `**What ${money(req.budget)} delivers**`, "");
+    out.push(mdRow(["Option", kpi, labels.outcomes, labels.cost]));
+    out.push(mdRow(["---", "---:", "---:", "---:"]));
+    for (const r of delivery) {
+      out.push(mdRow([`${r.label} (${r.note})`, pct(r.rate), count(r.outcomes), money(r.cost)]));
+    }
+    out.push("", `_Ranked by ${kpi}, as the brief asks; volume and cost are shown for comparison and don't change the pick._`);
   }
 
   const rationale = rec.rationale || {};

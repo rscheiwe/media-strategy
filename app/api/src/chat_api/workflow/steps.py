@@ -208,23 +208,39 @@ def assess(
 # --- planning ----------------------------------------------------------------------------------
 
 
+def outcome_cost(spend: float, outcomes: float, kpi: str) -> float | None:
+    """Step 5 helper: what one outcome costs: USD per click for CTR, per 1,000 viewable impressions
+    for in-view rate. E.g. Acme's pick: $30,000 / 8,493 clicks = $3.53 per click.
+
+    Shown next to the KPI rate for comparison; it never ranks anything (the brief ranks by the KPI).
+    """
+    if not outcomes:
+        return None
+    return spend / outcomes * (1000 if kpi == "in_view_rate" else 1)
+
+
 def _line(c: Candidate, s: ScaleCheck, spend: float, policy: InventoryPolicy) -> PlanLine:
-    """Step 5 helper: one plan line: spend, impressions bought, KPI, confidence, low-confidence flag."""
+    """Step 5 helper: one plan line: spend, impressions bought, KPI, confidence, low-confidence flag,
+    and the outcomes those impressions are expected to deliver."""
+    impressions = affordable_imps(spend, c.cpm)
     return PlanLine(
         product_id=c.product_id,
         product_name=c.product_name,
         spend=round(spend, 2),
-        impressions=affordable_imps(spend, c.cpm),
+        impressions=impressions,
         kpi_value=c.kpi_value,
         confidence=s.confidence,
         low_confidence=s.confidence < policy.low_confidence,
+        expected_outcomes=impressions * c.kpi_value,
     )
 
 
 def _finish(kind: str, lines: list[PlanLine], slots: Slots) -> Plan:
-    """Step 5 helper: plan totals: spend, unspent budget, impressions, blended KPI, goal met."""
+    """Step 5 helper: plan totals: spend, unspent budget, impressions, blended KPI, goal met, and
+    expected outcomes with their cost."""
     total_imps = sum(line.impressions for line in lines)
     spend = round(sum(line.spend for line in lines), 2)
+    outcomes = sum(line.expected_outcomes for line in lines)
     blended = sum(line.impressions * line.kpi_value for line in lines) / total_imps if total_imps else 0.0
     goal = slots.impression_goal
     return Plan(
@@ -235,6 +251,8 @@ def _finish(kind: str, lines: list[PlanLine], slots: Slots) -> Plan:
         total_impressions=total_imps,
         blended_kpi=blended,
         meets_goal=None if not goal else total_imps >= goal,
+        expected_outcomes=outcomes,
+        cost_per_outcome=outcome_cost(spend, outcomes, slots.kpi),
     )
 
 
@@ -400,6 +418,7 @@ def alternatives(candidates, scale, rejections, plan: Plan, bundle: Plan | None,
                     "kpi_points": round((bundle.blended_kpi - pick_kpi) * 100, 4),
                     "uplift_pct": round((bundle.blended_kpi / pick_kpi - 1) * 100, 2),
                 },
+                plan=bundle,
             )
         )
     return out

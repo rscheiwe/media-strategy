@@ -5,8 +5,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import {
   KPI_LABELS,
+  OUTCOME_LABELS,
   REASON_TEXT,
   count,
+  deliveryRows,
   money,
   pct,
   recommendationMarkdown,
@@ -107,6 +109,8 @@ export function RecommendationCard({ artifact, compact = false, onOpen }) {
             <PlanTable plan={plan} kpiLabel={kpiLabel} scale={scale} />
           )}
         </Section>
+
+        {!compact ? <Delivery rec={rec} kpiLabel={kpiLabel} /> : null}
 
         {rationale.best_fit || rationale.text ? (
           <Section title="Why this is the best fit">
@@ -278,6 +282,58 @@ function PlanTable({ plan, kpiLabel, scale }) {
         ) : null}
       </table>
     </div>
+  );
+}
+
+/**
+ * What the budget delivers: the pick and the bundle not chosen, by expected outcomes and cost per
+ * outcome. The KPI rate decides the pick (brief 8.6); this shows what that choice means in clicks
+ * or viewable impressions per dollar. Hidden for no plan and for older payloads.
+ */
+function Delivery({ rec, kpiLabel }) {
+  const rows = deliveryRows(rec);
+  if (!rows.length) return null;
+  const labels = OUTCOME_LABELS[rec.requirements?.kpi] || OUTCOME_LABELS.ctr;
+  return (
+    <motion.div
+      variants={ITEM}
+      aria-label="What the budget delivers"
+      role="group"
+      className="rounded-lg border border-yellow-200 bg-yellow-50 p-3 dark:border-yellow-900/50 dark:bg-yellow-950/30"
+    >
+      <h4 className="mb-1.5 text-[12px] font-semibold text-yellow-900 dark:text-yellow-200">
+        What {money(rec.requirements?.budget)} delivers
+      </h4>
+      <div className="overflow-x-auto">
+        <table className="w-full text-[13px]">
+          <thead className="border-b border-yellow-200 text-left text-[11.5px] text-muted-foreground dark:border-yellow-900/50">
+            <tr>
+              <th className="py-1.5 pr-3 font-medium">Option</th>
+              <th className="py-1.5 pr-3 text-right font-medium">{kpiLabel}</th>
+              <th className="py-1.5 pr-3 text-right font-medium">{labels.outcomes}</th>
+              <th className="py-1.5 text-right font-medium">{labels.cost}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.key} className="border-b border-yellow-200/60 last:border-0 dark:border-yellow-900/40">
+                <td className="py-1.5 pr-3">
+                  <span className="font-medium">{r.label}</span>{" "}
+                  <span className="text-muted-foreground">({r.note})</span>
+                </td>
+                <td className="py-1.5 pr-3 text-right tabular-nums">{pct(r.rate)}</td>
+                <td className="py-1.5 pr-3 text-right tabular-nums">{count(r.outcomes)}</td>
+                <td className="py-1.5 text-right tabular-nums">{money(r.cost)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-1.5 text-[11px] text-muted-foreground">
+        Ranked by {kpiLabel}, as the brief asks; volume and cost are shown for comparison and
+        don&apos;t change the pick.
+      </p>
+    </motion.div>
   );
 }
 

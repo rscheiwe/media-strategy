@@ -1,4 +1,10 @@
-"""Selection-rules matrix: app picks vs an independent pandas implementation (README.md, "Selection rules").
+"""Selection-rules matrix: app picks vs independent pandas implementations (README.md, "Selection rules").
+
+Two checks over 420 briefs (5 verticals x 2 KPIs x 3 geos x 7 budgets x goal or none):
+- `oracle` below: a compact re-implementation of single-first and rank-order fill. It skips
+  the fallback search, so fallback and no-plan briefs are not compared strictly.
+- `evals/truth.py`: the full independent oracle, fallback search included. Every brief is
+  compared strictly: plan kind, products, spend and impressions per line, unspent budget.
 
 cd app/api && PYTHONPATH=src:. uv run python -m evals.run_matrix
 """
@@ -12,6 +18,7 @@ from chat_api.casedata import connect_readonly, ensure_case_db
 from chat_api.workflow.domain import Slots
 from chat_api.workflow import steps
 from chat_api.workflow.steps import recommend
+from evals import truth
 
 ROOT = str(Path(__file__).resolve().parents[1] / "case_data") + "/"  # app/api/case_data
 h = pd.read_csv(ROOT + "campaign_history.csv")
@@ -63,6 +70,7 @@ def oracle(v, kpi, geo, budget, goal):
 c = connect_readonly(ensure_case_db())
 stats = collections.Counter()
 mism = []
+truth_mism = []
 fallback_cases = []
 unspent_big = []
 orig = steps.rank_fill
@@ -109,11 +117,19 @@ for v, kpi, geo, budget, goal in itertools.product(
             mism.append(((v, kpi, geo, budget, goal), (plan.kind, ids), (kind, oids)))
     elif plan.kind != "none" and not fb["hit"]:
         mism.append(((v, kpi, geo, budget, goal), (plan.kind, ids), "oracle: none"))
+    expected, _ = truth.recommend(truth.TruthSlots(None, v, kpi, geo, budget, goal))
+    got = (plan.kind, [(ln.product_id, round(ln.spend, 2), ln.impressions) for ln in plan.lines], round(plan.unspent, 2))
+    want = (expected.kind, [(ln.product_id, round(ln.spend, 2), ln.impressions) for ln in expected.lines], round(expected.unspent, 2))
+    if got != want:
+        truth_mism.append(((v, kpi, geo, budget, goal), got, want))
     if plan.kind != "none" and plan.unspent >= MIN:
         unspent_big.append((v, kpi, geo, budget, goal, plan.unspent))
 print(dict(stats))
 print("mismatches vs independent rules:", len(mism))
 for m in mism[:8]:
+    print("  ", m)
+print("strict mismatches vs truth.py, all briefs (kind, products, spend, impressions, unspent):", len(truth_mism))
+for m in truth_mism[:8]:
     print("  ", m)
 print(
     "fallback (rank fill missed the goal, best combination used):", len(fallback_cases)
