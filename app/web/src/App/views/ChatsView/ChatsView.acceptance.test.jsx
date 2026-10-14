@@ -237,6 +237,8 @@ describe("tool activity labels", () => {
       .toBe("Check scale: Travel · APAC · $18,000");
     expect(toolLabel("run_python_analysis", { code: "secret", question: "also secret" }))
       .toBe("Run analysis");
+    expect(toolLabel("read_knowledge", { topic: "inventory" })).toBe("Read the guide: Inventory rule");
+    expect(toolActivity("read_knowledge", true)).toBe("Reading the guide…");
     expect(toolLabel("unknown_tool", { x: 1 })).toBe("unknown_tool");
     expect(toolActivity("get_case_data", true)).toBe("Retrieving data…");
     expect(toolActivity("get_case_data", false)).toBe("Retrieved data");

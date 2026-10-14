@@ -4,6 +4,7 @@ chat.tools — Vel ToolSpec definitions for the chat agent.
 - `list_products`: the product catalog (case.db's `products`, built from product_catalog.csv).
 - `get_case_data` + `run_python_analysis`: fetch raw case data, then analyse it in Python
   (see `chat.analysis`).
+- `read_knowledge`: how the app works, from curated docs (see `chat.knowledge`).
 - `web_search`: Linkup web search, offered only when
   LINKUP_API_KEY is set.
 
@@ -224,6 +225,7 @@ LIST_PRODUCTS = ToolSpec(
 def build_tools() -> list[ToolSpec]:
     """Tools for the chat agent. `web_search` is listed but only offered while
     LINKUP_API_KEY is set (its `enabled` check runs when vel builds the schemas)."""
+    from .knowledge import READ_KNOWLEDGE
     from .step_tools import STEP_TOOLS
 
-    return [LIST_PRODUCTS, GET_CASE_DATA, RUN_PYTHON_ANALYSIS, *STEP_TOOLS, WEB_SEARCH]
+    return [LIST_PRODUCTS, GET_CASE_DATA, RUN_PYTHON_ANALYSIS, *STEP_TOOLS, READ_KNOWLEDGE, WEB_SEARCH]

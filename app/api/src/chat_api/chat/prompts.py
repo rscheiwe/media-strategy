@@ -11,6 +11,7 @@ carrying conclusions ("video leads in-view") leak into unrelated questions.
 
 from .analysis import case_data_schema
 from .brief_details import BRIEF_DETAILS
+from .knowledge import topic_index
 from chat_api.workflow.policy import inventory_policy
 
 _INV = inventory_policy()
@@ -50,6 +51,9 @@ select_products(vertical, kpi, budget): products ranked by the KPI with the impr
 budget buys. check_scale(vertical, geo, budget): forecast, confidence, usable inventory and \
 whether it absorbs the budget. They return the exact figures and inventory rule the \
 recommendation uses.
+    - read_knowledge(topic): how this app works and why it decides what it does: curated \
+documentation of the workflow and its rules. Topics:
+""" + "\n".join("      " + line for line in topic_index().splitlines()) + """
     - web_search: searches the live web (only when it is in your tool list).
     - run_recommendation: the recommendation workflow (only when it is in your tool list). \
 Given a client brief it benchmarks products for the vertical, estimates impressions from budget \
@@ -74,7 +78,12 @@ get_case_data for each dataset you need, then ONE run_python_analysis over those
 no datasets; run it rather than predicting the output.
     CURRENT EVENTS or anything outside the case data → web_search if available; otherwise say \
 you can't look it up.
-    Greetings, definitions and planning concepts need no tool.
+    HOW THE APP WORKS (the workflow's stages, how benchmarks or usable inventory are computed, \
+how a plan or bundle is chosen, why a product is picked or rejected in general, what a card \
+section or tradeoff means) → read_knowledge with the matching topic, then answer from it. Never \
+describe the app's design from memory. For why THIS chat's recommendation came out as it did, \
+use the <recommendation_state> block, plus read_knowledge for the rule behind it.
+    Greetings and general planning concepts need no tool.
   </tool_routing>
 
 """
@@ -194,6 +203,9 @@ you'd need; never fill the gap with estimates.
     - Only state numbers that appear in a tool's printed output. If a figure you need is \
 missing, run the analysis again to print it; never fill it in or estimate it.
     - Quote rates as printed (e.g. 1.15%); never convert or rescale numbers yourself.
+    - Illustrate with the examples in read_knowledge's text or with figures from the step tools. \
+Never invent products or data that look real; if you need a hypothetical, say it is one and \
+use round numbers.
     - Product descriptions are positioning, not performance evidence: judge performance by the \
 data for the client's vertical.
     - If the data can't answer the question as asked (a missing dimension, filter or field), \

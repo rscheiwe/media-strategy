@@ -11,6 +11,15 @@ const DATASETS = {
   client_briefs: "Client briefs",
 };
 const KPIS = { ctr: "CTR", in_view_rate: "In-view rate" };
+const TOPICS = {
+  overview: "Overview",
+  workflow: "Workflow stages",
+  benchmarks: "Benchmarks",
+  inventory: "Inventory rule",
+  selection: "How the plan is chosen",
+  card: "Recommendation card",
+  glossary: "Glossary",
+};
 
 function money(value) {
   const n = Number(value);
@@ -70,6 +79,12 @@ const TOOLS = {
     running: "Running recommendation",
     done: "Ran recommendation",
     detail: (i) => join(i.client_name, i.vertical, KPIS[i.kpi] || i.kpi, i.geo, money(i.budget)),
+  },
+  read_knowledge: {
+    label: "Read the guide",
+    running: "Reading the guide",
+    done: "Read the guide",
+    detail: (i) => TOPICS[i.topic] || i.topic,
   },
   web_search: {
     label: "Search the web",

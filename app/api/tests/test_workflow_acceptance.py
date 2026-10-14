@@ -1077,3 +1077,39 @@ def test_plans_report_expected_outcomes_and_cost(conn):
         del alt["plan"]
     restored = type(acme).model_validate(old)
     assert restored.plan.expected_outcomes == 0.0 and restored.plan.cost_per_outcome is None
+
+
+def test_knowledge_base_matches_the_workflow(conn, monkeypatch):
+    """read_knowledge serves every topic, and the docs' facts track the code: the stages in the
+    DAG's order, and the worked examples recomputed under the default policies."""
+    from chat_api.chat import prompts
+    from chat_api.chat.knowledge import READ_KNOWLEDGE, TOPICS, read_topic
+    from chat_api.chat.tools import build_tools
+    from chat_api.workflow.dag import STAGES
+
+    monkeypatch.delenv("APP_INVENTORY_POLICY", raising=False)
+    monkeypatch.delenv("APP_SELECTION_POLICY", raising=False)
+    assert "read_knowledge" in {tool.name for tool in build_tools()}
+    for topic in TOPICS:
+        out = READ_KNOWLEDGE._handler({"topic": topic}, {})
+        assert out["content"].startswith("# ") and out["topic"] == topic
+        assert f"- {topic}:" in prompts.ASSISTANT_SYSTEM_PROMPT
+    assert "forecast × confidence" in READ_KNOWLEDGE._handler({"topic": "inventory"}, {})["active_policies"]
+    assert "error" in READ_KNOWLEDGE._handler({"topic": "secrets"}, {})
+
+    # The stage table lists the DAG's stages in order.
+    workflow = read_topic("workflow")
+    rows = [line.split("|")[2].strip() for line in workflow.splitlines() if line.startswith("| ") and line.split("|")[1].strip().isdigit()]
+    assert tuple(rows) == STAGES
+
+    # Worked examples.
+    acme = recommend(conn, Slots(vertical="Retail", kpi="ctr", geo="US", budget=30_000))
+    line = acme.plan.lines[0]
+    assert (line.product_name, line.spend, line.impressions) == ("Premium Takeover", 30_000, 937_500)
+    assert "Premium Takeover, $30,000, 937,500 impressions" in read_topic("selection")
+    assert f"about {round(acme.plan.expected_outcomes):,} clicks at ${acme.plan.cost_per_outcome:.2f}" in read_topic("selection")
+    acme40 = recommend(conn, Slots(vertical="Retail", kpi="ctr", geo="US", budget=40_000))
+    assert [(l.product_name, round(l.spend)) for l in acme40.plan.lines] == [("Commerce Connect", 21_414), ("Attention Builder", 18_586)]
+    assert "Commerce Connect $21,414 (all its usable inventory), then Attention Builder $18,586" in read_topic("selection")
+    goal = recommend(conn, Slots(vertical="Retail", kpi="ctr", geo="US", budget=5_000, impression_goal=800_000))
+    assert goal.plan.kind == "none"

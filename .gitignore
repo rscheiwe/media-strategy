@@ -31,3 +31,7 @@ app/api/data/
 
 # Raw experiment outputs (the findings are summarized in each FINDINGS.md)
 experiments/*/results/
+
+# Local notes (not part of the submission)
+/docs/
+/OVERVIEW.md

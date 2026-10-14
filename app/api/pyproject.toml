@@ -30,7 +30,7 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.setuptools.package-data]
-chat_api = ["storage/schema.sql", "casedata/schema.sql"]
+chat_api = ["storage/schema.sql", "casedata/schema.sql", "knowledge/*.md"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
